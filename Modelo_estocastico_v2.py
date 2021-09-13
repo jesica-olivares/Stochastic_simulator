@@ -83,7 +83,7 @@ simul_recovery=round(simul_recovery,2)
 
 
 
-col11, col12, col13 = st.beta_columns((1,8  ,1))
+col11, col12, col13 = st.beta_columns((1,8  ,3))
 
 with col12:
     st.write('')  
