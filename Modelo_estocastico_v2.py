@@ -98,16 +98,16 @@ with col13:
     st.write('')  
 
 #generamos 3 columnas
-col21, col22, col23, col24 = st.beta_columns((3,1,1,1))
+col21, col22, col23, col24 = st.beta_columns((2,1,1,2))
 
-with col23:
+with col22:
     i=0
     st.write('')
     for i in range(node_number):
         j=i+1
         globals()['p80%s' % j] =st.number_input(f"P80 {j}",max_value=300,value=100+i*10)
 
-with col24:
+with col23:
     
     st.write('')
     i=0
@@ -133,7 +133,8 @@ f = CubicSpline(x, y, bc_type='natural')
 x_new = np.linspace(0, max_graph, 100)
 y_new = f(x_new)
 
-with col21:
+col31, col32, col33,col34 = st.beta_columns((1,4,2,1))
+with col32:
     st.write('')  
     # fig1, ax = plt.subplots(figsize=(12,8))
     # plt.grid(True, axis='y',linewidth=0.2, color='gray', linestyle='-')
@@ -184,9 +185,9 @@ with col21:
     #     st.dataframe(response['data'])
     
 
-col31, col32, col33,col34,col35 = st.beta_columns((1,3,3,1,1))
 
-with col32:
+
+with col33:
     st.table(df_test)  
 
 #with col32:
