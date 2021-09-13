@@ -98,16 +98,16 @@ with col13:
     st.write('')  
 
 #generamos 3 columnas
-col21, col22, col23, col24 = st.beta_columns((2,1,1,2))
+col21, col22, col23, col24 = st.beta_columns((3,1,1,1))
 
-with col22:
+with col23:
     i=0
     st.write('')
     for i in range(node_number):
         j=i+1
         globals()['p80%s' % j] =st.number_input(f"P80 {j}",max_value=300,value=100+i*10)
 
-with col23:
+with col24:
     
     st.write('')
     i=0
@@ -133,8 +133,8 @@ f = CubicSpline(x, y, bc_type='natural')
 x_new = np.linspace(0, max_graph, 100)
 y_new = f(x_new)
 
-col31, col32, col33,col34 = st.beta_columns((1,4,2,1))
-with col32:
+
+with col21:
     st.write('')  
     # fig1, ax = plt.subplots(figsize=(12,8))
     # plt.grid(True, axis='y',linewidth=0.2, color='gray', linestyle='-')
@@ -173,8 +173,12 @@ with col32:
     ax2=sns.histplot(df_rand,x='Simulated_p80_check', bins=20, color=color2)
     ax2.set_ylabel("Count", color = color2)
     st.pyplot(fig1)
-
+    
     metric("Simulated Recovery", simul_recovery,)
+    
+col31, col32, col33,col34 = st.beta_columns((1,4,2,1))
+
+    
 
     #st.write(df)
     #st.table(df,)
@@ -187,7 +191,7 @@ with col32:
 
 
 
-with col33:
+with col32:
     st.table(df_test)  
 
 #with col32:
