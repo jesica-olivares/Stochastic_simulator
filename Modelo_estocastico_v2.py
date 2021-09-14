@@ -97,6 +97,30 @@ with col13:
     st.image(image, caption='FLSmidth')
     st.write('')  
 
+    
+node_max=node_number-1
+middle_node_f=math.floor(node_max/2)
+middle_node_c=math.ceil(node_max/2)
+for i in range(node_number):
+    j=i+1
+    if i<middle_node_f:
+        globals()['val_rec_%s' % j]=round(85*(1-(middle_node_f-i)/node_max))
+    elif (i==middle_node_f or i==middle_node_c):
+        globals()['val_rec_%s' % j]=85
+    else:
+        globals()['val_rec_%s' % j]=round(85*(1+(middle_node_f-i)/node_max))
+
+
+for i in range(node_number):
+    j=i+1
+    if i<middle_node_c:
+        globals()['val_p80_%s' % j]=round(120*(1-(node_max-j)/node_max))
+    elif (i==middle_node_f):
+        globals()['val_p80_%s' % j]=120
+    else:
+        globals()['val_p80_%s' % j]=round(120*(0.8*(j)/middle_node_c))
+   
+ 
 #generamos 3 columnas
 col21, col22, col23, col24 = st.beta_columns((3,1,1,1))
 
@@ -105,7 +129,7 @@ with col23:
     st.write('')
     for i in range(node_number):
         j=i+1
-        globals()['p80%s' % j] =st.number_input(f"P80 {j}",max_value=300,value=100+i*10)
+        globals()['p80%s' % j] =st.number_input(f"P80 {j}",max_value=300,value=globals()['val_p80_%s' % j])
 
 with col24:
     
@@ -113,7 +137,7 @@ with col24:
     i=0
     for i in range(node_number):
         j=i+1
-        globals()['rec%s' % j]  =st.number_input(f"Recovery {j}",min_value=0,max_value=100,value=40+i*10)
+        globals()['rec%s' % j]  =st.number_input(f"Recovery {j}",min_value=0,max_value=100,value=globals()['val_rec_%s' % j])
 
 data=[]
 for i in range(node_number):
