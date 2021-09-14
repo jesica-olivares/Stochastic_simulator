@@ -210,8 +210,8 @@ with col21:
 
 col31, col32, col33,col34,col35 = st.beta_columns((1,3,3,1,1))
 
-with col32:
-    st.table(df_test)  
+#with col32:
+#    st.table(df_test)  
 
 #with col32:
     #st.write('')
