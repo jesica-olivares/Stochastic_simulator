@@ -4,6 +4,7 @@ import numpy as np
 from scipy.interpolate import CubicSpline
 from scipy.stats import norm
 import random
+import math
 
 import streamlit as st
 import altair as alt
@@ -29,9 +30,9 @@ st.set_page_config(layout="wide")
 #         submit_button = st.form_submit_button(label='Submit')    
 
 with st.sidebar:
-    average_p80 =st.number_input("Average P80",min_value=35,max_value=300)
-    std_p80 =st.number_input("Standard Deviation P80",min_value=1)
-    simul_number =st.number_input("Number of Simulations",min_value=1)
+    average_p80 =st.number_input("Average P80",min_value=35,max_value=300,value=200)
+    std_p80 =st.number_input("Standard Deviation P80",min_value=1,value=15)
+    simul_number =st.number_input("Number of Simulations",min_value=1,value=1000,)
     node_number =int(st.selectbox("Number of Nodes",
             ("3", "4", "5","6","7","8")))
         #node_number_int=int(node_number)
@@ -83,7 +84,7 @@ simul_recovery=round(simul_recovery,2)
 
 
 
-col11, col12, col13 = st.beta_columns((1,8  ,2))
+col11, col12, col13 = st.beta_columns((1,8  ,1))
 
 with col12:
     st.write('')  
@@ -97,7 +98,6 @@ with col13:
     st.image(image, caption='FLSmidth')
     st.write('')  
 
-    
 node_max=node_number-1
 middle_node_f=math.floor(node_max/2)
 middle_node_c=math.ceil(node_max/2)
@@ -119,8 +119,8 @@ for i in range(node_number):
         globals()['val_p80_%s' % j]=120
     else:
         globals()['val_p80_%s' % j]=round(120*(0.8*(j)/middle_node_c))
-   
- 
+
+
 #generamos 3 columnas
 col21, col22, col23, col24 = st.beta_columns((3,1,1,1))
 
@@ -156,7 +156,6 @@ max_graph=round(p80_max*1.1)
 f = CubicSpline(x, y, bc_type='natural')
 x_new = np.linspace(0, max_graph, 100)
 y_new = f(x_new)
-
 
 with col21:
     st.write('')  
@@ -197,12 +196,8 @@ with col21:
     ax2=sns.histplot(df_rand,x='Simulated_p80_check', bins=20, color=color2)
     ax2.set_ylabel("Count", color = color2)
     st.pyplot(fig1)
-    
-    metric("Simulated Recovery", simul_recovery,)
-    
-col31, col32, col33,col34 = st.beta_columns((1,4,2,1))
 
-    
+    metric("Simulated Recovery", simul_recovery,)
 
     #st.write(df)
     #st.table(df,)
@@ -213,7 +208,7 @@ col31, col32, col33,col34 = st.beta_columns((1,4,2,1))
     #     st.dataframe(response['data'])
     
 
-
+col31, col32, col33,col34,col35 = st.beta_columns((1,3,3,1,1))
 
 with col32:
     st.table(df_test)  
