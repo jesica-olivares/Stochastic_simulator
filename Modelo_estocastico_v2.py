@@ -172,8 +172,8 @@ with col21:
     # ax.spines['bottom'].set_linewidth('0.3') 
     # ax.spines['left'].set_linewidth('0.3') 
     # st.pyplot(fig1)
-    color1='midnightblue'
-    color2='purple'
+    color1="#002A54"
+    color2="#C94F7E"
     plt.rcParams.update({'font.size': 16})
     fig1, ax = plt.subplots(figsize=(12,8))
     ax2=ax.twinx()
@@ -193,7 +193,7 @@ with col21:
     ax.spines['bottom'].set_linewidth('0.3') 
     ax.spines['left'].set_linewidth('0.3') 
     ax.set_ylim([0,100])
-    ax2=sns.histplot(df_rand,x='Simulated_p80_check', bins=20, color=color2)
+    ax2=sns.histplot(df_rand,x='Simulated_p80_check', bins=20, color=color2,alpha=.7)
     ax2.set_ylabel("Count", color = color2)
     st.pyplot(fig1)
 
