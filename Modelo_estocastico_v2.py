@@ -172,8 +172,8 @@ with col21:
     # ax.spines['bottom'].set_linewidth('0.3') 
     # ax.spines['left'].set_linewidth('0.3') 
     # st.pyplot(fig1)
-    color1="#002A54"
-    color2="#C94F7E"
+    color1='midnightblue'
+    color2='purple'
     plt.rcParams.update({'font.size': 16})
     fig1, ax = plt.subplots(figsize=(12,8))
     ax2=ax.twinx()
