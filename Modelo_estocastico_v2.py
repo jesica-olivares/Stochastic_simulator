@@ -160,7 +160,7 @@ with col21:
     ax.set_ylim([0,100])
     ax2=sns.histplot(df_rand,x='Simulated_p80_check', bins=20, color=color2)
     ax2.set_ylabel("Count", color = color2)
-    plt.title('Curva Recuperación versus P80')
+    plt.title('Curva Recuperación versus P80',fontsize=22)
     st.pyplot(fig1)
 
     metric("Simulated Recovery", simul_recovery,)
