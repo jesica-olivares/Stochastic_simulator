@@ -17,17 +17,7 @@ from st_aggrid import AgGrid, DataReturnMode, GridUpdateMode, GridOptionsBuilder
 
 from PIL import Image
 
-st.set_page_config(layout="wide")
-
-# with st.form(key='my_form'):
-#     with st.sidebar:
-#         average_p80 =st.number_input("Average P80",min_value=35,max_value=300)
-#         std_p80 =st.number_input("Standard Deviation P80",min_value=1)
-#         simul_number =st.number_input("Number of Simulations",min_value=1)
-#         node_number =int(st.selectbox("Number of Nodes",
-#             ("3", "4", "5","6","7","8")))
-#         #node_number_int=int(node_number)
-#         submit_button = st.form_submit_button(label='Submit')    
+st.set_page_config(layout="wide")  
 
 with st.sidebar:
     average_p80 =st.number_input("Average P80",min_value=35,max_value=300,value=200)
@@ -37,31 +27,6 @@ with st.sidebar:
             ("3", "4", "5","6","7","8")))
         #node_number_int=int(node_number)
 
-
-#df=pd.read_csv('datos_modelo_estocastico.csv',sep=";")
-d={'p80':[1,50,110,200,250,300],'Recovery':[30,70,90,90,78,39]}
-df=pd.DataFrame(d)
-
-x=df["p80"]
-y=df["Recovery"]    
-
-p80_min=df['p80'].min()
-p80_max=df['p80'].max()
-
-max_graph=round(p80_max*1.1)
-
-f = CubicSpline(x, y, bc_type='natural')
-x_new = np.linspace(0, max_graph, 100)
-y_new = f(x_new)
-
-
-
-
-prob=random.random()
-norm.ppf(prob,loc=average_p80,scale=std_p80)
-df_rand= pd.DataFrame(np.random.random(size=(simul_number, 1)), columns=['random'])
-df_rand['Simulated_p80']=norm.ppf(df_rand['random'],loc=average_p80,scale=std_p80)
-
 def check(row):
     if row['Simulated_p80']<35: 
         val=np.nan
@@ -70,19 +35,6 @@ def check(row):
     else: 
         val=row['Simulated_p80']
     return val
-
-
-df_rand['Simulated_p80_check']=df_rand.apply(check, axis=1) 
-df_rand["recovery"]=df_rand['Simulated_p80_check'].apply(f)
-
-simul_recovery=df_rand[df_rand["recovery"]>0]["recovery"].mean()
-simul_recovery=round(simul_recovery,2)
-
-
-#add_slider =st.sidebar.slider("Fecha",value=[datetime.date(2021,1,1),datetime.date(2021,7,1)])
-#age = st.slider('How old are you?', 0, 130, 25)
-
-
 
 col11, col12, col13 = st.beta_columns((1,8  ,1))
 
@@ -157,6 +109,17 @@ f = CubicSpline(x, y, bc_type='natural')
 x_new = np.linspace(0, max_graph, 100)
 y_new = f(x_new)
 
+prob=random.random()
+norm.ppf(prob,loc=average_p80,scale=std_p80)
+df_rand= pd.DataFrame(np.random.random(size=(simul_number, 1)), columns=['random'])
+df_rand['Simulated_p80']=norm.ppf(df_rand['random'],loc=average_p80,scale=std_p80)
+
+df_rand['Simulated_p80_check']=df_rand.apply(check, axis=1) 
+df_rand["recovery"]=df_rand['Simulated_p80_check'].apply(f)
+
+simul_recovery=df_rand[df_rand["recovery"]>0]["recovery"].mean()
+simul_recovery=round(simul_recovery,2)
+
 with col21:
     st.write('')  
     # fig1, ax = plt.subplots(figsize=(12,8))
@@ -197,18 +160,10 @@ with col21:
     ax.set_ylim([0,100])
     ax2=sns.histplot(df_rand,x='Simulated_p80_check', bins=20, color=color2)
     ax2.set_ylabel("Count", color = color2)
+    plt.title('Curva Recuperación versus P80')
     st.pyplot(fig1)
 
     metric("Simulated Recovery", simul_recovery,)
-
-    #st.write(df)
-    #st.table(df,)
-
-
-    # st.header("Output data")
-    # if 'data' in response:
-    #     st.dataframe(response['data'])
-    
 
 col31, col32, col33,col34,col35 = st.beta_columns((1,3,3,1,1))
 
